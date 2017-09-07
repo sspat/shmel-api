@@ -7,13 +7,14 @@ use sspat\ShmelAPI\Contracts\Facade;
 use sspat\ShmelAPI\Contracts\Request;
 use sspat\ShmelAPI\Contracts\Response;
 use sspat\ShmelAPI\Exceptions\ShmelAPICacheException;
+use sspat\ShmelAPI\Exceptions\ShmelAPIFacadeException;
 use sspat\ShmelAPI\Exceptions\ShmelAPISoapException;
 use SoapClient;
 use SoapFault;
 
-class API implements Facade
+final class API implements Facade
 {
-    /** Endpoint for testing, used by default */
+    /** Endpoint for testing */
     const TEST_ENDPOINT = 'http://185.68.208.204:60080/tg-demo2/ws/ws1.1cws?wsdl';
 
     /** Endpoint for production */
@@ -27,23 +28,25 @@ class API implements Facade
 
     /**
      * API constructor.
-     * @param string $login
-     * @param string $password
-     * @param bool $productionMode
+     * @param string $endpoint
+     * @param array|null $options
      */
-    public function __construct($login, $password, $productionMode = false)
+    public function __construct($endpoint, $options = null)
     {
-        // We use the test endpoint by default, to prevent accidental corruption of data on the production server
-        $endpoint = $productionMode ? self::PRODUCTION_ENDPOINT : self::TEST_ENDPOINT;
-        $this->soapClient = $this->setUpClient($login, $password, $endpoint);
+        $this->soapClient = $this->setUpClient($endpoint, $options);
         $this->cache = new NullCache();
     }
 
     /**
      * @param Cache $cacheDriver
+     * @throws ShmelAPIFacadeException
      */
     public function setCacheDriver($cacheDriver)
     {
+        if (!($cacheDriver instanceof Cache)) {
+            throw new ShmelAPIFacadeException('Cache driver must implement Cache contract');
+        }
+
         $this->cache = $cacheDriver;
     }
 
@@ -76,20 +79,18 @@ class API implements Facade
     }
 
     /**
-     * @param string $login
-     * @param string $password
      * @param string $endpoint
+     * @param array|null $options
      * @return SoapClient
      */
-    protected function setUpClient($login, $password, $endpoint)
+    private function setUpClient($endpoint, $options)
     {
         return new SoapClient(
             $endpoint,
-            [
-                'login' => $login,
-                'password' => $password,
-                'soap_version' => SOAP_1_2
-            ]
+            array_merge(
+                ['soap_version' => SOAP_1_2],
+                $options ?: []
+            )
         );
     }
 }

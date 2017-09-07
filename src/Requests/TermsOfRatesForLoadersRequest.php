@@ -18,7 +18,7 @@ final class TermsOfRatesForLoadersRequest extends AbstractCacheableRequest
      */
     public function setID($id)
     {
-        $this->ensureParameterIsStringOrNull('ID', $id);
+        $this->ensureIsStringOrNull('ID', $id);
         $this->id = $id;
         return $this;
     }
@@ -30,7 +30,7 @@ final class TermsOfRatesForLoadersRequest extends AbstractCacheableRequest
      */
     public function setRate($rate)
     {
-        $this->ensureParameterIsStringOrNull('Rate', $rate);
+        $this->ensureIsStringOrNull('Rate', $rate);
         $this->rate = $rate;
         return $this;
     }

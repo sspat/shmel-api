@@ -3,7 +3,7 @@ namespace sspat\ShmelAPI\Cache;
 
 use sspat\ShmelAPI\Contracts\Cache;
 
-class NullCache implements Cache
+final class NullCache implements Cache
 {
     public function getOrSet($category, $identifier, $function)
     {

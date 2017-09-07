@@ -23,11 +23,11 @@ abstract class AbstractCacheableRequest implements Request
      * @param mixed $value
      * @throws ShmelAPIFacadeException
      */
-    protected function ensureParameterIsStringOrNull($parameter, $value)
+    protected function ensureIsStringOrNull($parameter, $value)
     {
         if ($value !== null && !is_string($value)) {
             throw new ShmelAPIFacadeException(
-                'Invalid value for paremeter '.$parameter. '. Value must be null or string.'
+                'Invalid value for parameter '.$parameter. '. Value must be null or string.'
             );
         }
     }

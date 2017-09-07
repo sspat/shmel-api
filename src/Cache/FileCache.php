@@ -7,7 +7,7 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use FilesystemIterator;
 
-class FileCache implements Cache
+final class FileCache implements Cache
 {
     /**
      * The default TTL for all caches is 24 hours
@@ -17,7 +17,7 @@ class FileCache implements Cache
     /** @var string */
     private $cacheDir;
 
-    /** @var array */
+    /** @var array|null */
     private $cacheTTLConfig;
 
     /**
