@@ -1,29 +1,30 @@
 <?php
 namespace sspat\ShmelAPI\Responses;
 
-use sspat\ShmelAPI\Contracts\Request;
 use sspat\ShmelAPI\Contracts\Response;
 
-class TermsOfRatesForLoadersResponse implements Response
+final class TermsOfRatesForLoadersResponse implements Response
 {
     /** @var array */
     private $response;
 
-    /** @var Request */
-    private $request;
-
     /**
-     * @param Request $request
-     * @param Response $response
+     * TermsOfRatesForLoadersResponse constructor.
+     * @param mixed $response
      */
-    public function __construct($request, $response)
+    public function __construct($response)
     {
-        $this->request = $request;
         $this->setResponse($response);
     }
 
+    /** @inheritdoc */
+    public function getData()
+    {
+        return $this->response;
+    }
+
     /**
-     * @param object $response
+     * @param mixed $response
      */
     private function setResponse($response)
     {
@@ -33,17 +34,5 @@ class TermsOfRatesForLoadersResponse implements Response
             },
             $response->return->GroupTableRatesForLoaders
         );
-    }
-
-    /** @inheritdoc */
-    public function getData()
-    {
-        return $this->response;
-    }
-
-    /** @inheritdoc */
-    public function getRequest()
-    {
-        return $this->request;
     }
 }

@@ -4,12 +4,7 @@ namespace sspat\ShmelAPI\Contracts;
 interface Response
 {
     /**
-     * @return mixed
+     * @return array
      */
     public function getData();
-
-    /**
-     * @return Request
-     */
-    public function getRequest();
 }

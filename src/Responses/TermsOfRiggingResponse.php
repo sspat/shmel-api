@@ -1,29 +1,30 @@
 <?php
 namespace sspat\ShmelAPI\Responses;
 
-use sspat\ShmelAPI\Contracts\Request;
 use sspat\ShmelAPI\Contracts\Response;
 
-class TermsOfRiggingResponse implements Response
+final class TermsOfRiggingResponse implements Response
 {
     /** @var array */
     private $response;
 
-    /** @var Request */
-    private $request;
-
     /**
-     * @param Request $request
-     * @param Response $response
+     * TermsOfRiggingResponse constructor.
+     * @param mixed $response
      */
-    public function __construct($request, $response)
+    public function __construct($response)
     {
-        $this->request = $request;
         $this->setResponse($response);
     }
 
+    /** @inheritdoc */
+    public function getData()
+    {
+        return $this->response;
+    }
+
     /**
-     * @param object $response
+     * @param mixed $response
      */
     private function setResponse($response)
     {
@@ -33,17 +34,5 @@ class TermsOfRiggingResponse implements Response
             },
             $response->return->GroupTermsOfRigging
         );
-    }
-
-    /** @inheritdoc */
-    public function getData()
-    {
-        return $this->response;
-    }
-
-    /** @inheritdoc */
-    public function getRequest()
-    {
-        return $this->request;
     }
 }
