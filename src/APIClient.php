@@ -3,16 +3,16 @@ namespace sspat\ShmelAPI;
 
 use sspat\ShmelAPI\Cache\NullCache;
 use sspat\ShmelAPI\Contracts\Cache;
-use sspat\ShmelAPI\Contracts\Facade;
+use sspat\ShmelAPI\Contracts\Client;
 use sspat\ShmelAPI\Contracts\Request;
 use sspat\ShmelAPI\Contracts\Response;
 use sspat\ShmelAPI\Exceptions\ShmelAPICacheException;
-use sspat\ShmelAPI\Exceptions\ShmelAPIFacadeException;
+use sspat\ShmelAPI\Exceptions\ShmelAPIConfigException;
 use sspat\ShmelAPI\Exceptions\ShmelAPISoapException;
 use SoapClient;
 use SoapFault;
 
-final class API implements Facade
+final class APIClient implements Client
 {
     /** Endpoint for testing */
     const TEST_ENDPOINT = 'http://185.68.208.204:60080/tg-demo2/ws/ws1.1cws?wsdl';
@@ -39,12 +39,12 @@ final class API implements Facade
 
     /**
      * @param Cache $cacheDriver
-     * @throws ShmelAPIFacadeException
+     * @throws ShmelAPIConfigException
      */
     public function setCacheDriver($cacheDriver)
     {
         if (!($cacheDriver instanceof Cache)) {
-            throw new ShmelAPIFacadeException('Cache driver must implement Cache contract');
+            throw new ShmelAPIConfigException('Cache driver must implement Cache contract');
         }
 
         $this->cache = $cacheDriver;

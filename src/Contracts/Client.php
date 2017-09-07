@@ -1,7 +1,7 @@
 <?php
 namespace sspat\ShmelAPI\Contracts;
 
-interface Facade
+interface Client
 {
     /**
      * @param Request $request
