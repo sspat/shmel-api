@@ -1,7 +1,7 @@
 <?php
 namespace sspat\ShmelAPI\Requests;
 
-class TermsOfRiggingRequest extends AbstractCacheableRequest
+final class TermsOfRiggingRequest extends AbstractCacheableRequest
 {
     /** @inheritdoc */
     public static function getMethodName()

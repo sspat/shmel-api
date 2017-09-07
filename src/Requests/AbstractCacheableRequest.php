@@ -2,7 +2,7 @@
 namespace sspat\ShmelAPI\Requests;
 
 use sspat\ShmelAPI\Contracts\Request;
-use sspat\ShmelAPI\Exceptions\ShmelAPIException;
+use sspat\ShmelAPI\Exceptions\ShmelAPIFacadeException;
 
 abstract class AbstractCacheableRequest implements Request
 {
@@ -21,12 +21,14 @@ abstract class AbstractCacheableRequest implements Request
     /**
      * @param string $parameter
      * @param mixed $value
-     * @throws ShmelAPIException
+     * @throws ShmelAPIFacadeException
      */
     protected function ensureParameterIsStringOrNull($parameter, $value)
     {
-        if (!is_null($value) && !is_string($value)) {
-            throw new ShmelAPIException('Invalid value for paremeter '.$parameter. '. Value must be null or string.');
+        if ($value !== null && !is_string($value)) {
+            throw new ShmelAPIFacadeException(
+                'Invalid value for paremeter '.$parameter. '. Value must be null or string.'
+            );
         }
     }
 }

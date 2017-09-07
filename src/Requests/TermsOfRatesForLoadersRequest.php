@@ -1,7 +1,9 @@
 <?php
 namespace sspat\ShmelAPI\Requests;
 
-class TermsOfRatesForLoadersRequest extends AbstractCacheableRequest
+use sspat\ShmelAPI\Exceptions\ShmelAPIFacadeException;
+
+final class TermsOfRatesForLoadersRequest extends AbstractCacheableRequest
 {
     /** @var string|null */
     private $id;
@@ -12,6 +14,7 @@ class TermsOfRatesForLoadersRequest extends AbstractCacheableRequest
     /**
      * @param $id
      * @return self
+     * @throws ShmelAPIFacadeException
      */
     public function setID($id)
     {
@@ -23,6 +26,7 @@ class TermsOfRatesForLoadersRequest extends AbstractCacheableRequest
     /**
      * @param $rate
      * @return self
+     * @throws ShmelAPIFacadeException
      */
     public function setRate($rate)
     {

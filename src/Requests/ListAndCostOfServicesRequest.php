@@ -1,7 +1,7 @@
 <?php
 namespace sspat\ShmelAPI\Requests;
 
-class ListAndCostOfServicesRequest extends AbstractCacheableRequest
+final class ListAndCostOfServicesRequest extends AbstractCacheableRequest
 {
     /** @inheritdoc */
     public static function getMethodName()

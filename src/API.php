@@ -59,7 +59,6 @@ class API implements Facade
 
         try {
             return new $responseClassFQCN(
-                $this,
                 $this->cache->getOrSet(
                     $request::getCacheCategory(),
                     $request->getCacheId(),
