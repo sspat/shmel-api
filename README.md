@@ -32,7 +32,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 ```php
 <?php
 use sspat\ShmelAPI\APIClient;
-use sspat\ShmelAPI\Requests\TermsOfRiggingRequest;
+use sspat\ShmelAPI\Requests\TermsOfRatesForRiggingRequest;
 
 // Создаем экземпляр класса sspat\ShmelAPI\APIClient
 $api = new APIClient(
@@ -43,7 +43,7 @@ $api = new APIClient(
     ]
 );
 
-$request = new TermsOfRiggingRequest(); // Создаем экземпляр класса запроса
+$request = new TermsOfRatesForRiggingRequest(); // Создаем экземпляр класса запроса
 $response = $api->sendRequest($request); // Передаем его в метод sendRequest, который вернет ответ API
 ```
 Конфигурация
@@ -89,7 +89,7 @@ $api = new APIClient(
 | ListAndTermsOfKitsRequest | ListAndTermsOfKitsResponse | Перечень и условия пакетов на переезд |
 | TermsOfRatesForCarsRequest | TermsOfRatesForCarsResponse | Условия тарифа на транспортные средства |
 | TermsOfRatesForLoadersRequest | TermsOfRatesForLoadersResponse | Условия тарифа на грузчиков |
-| TermsOfRiggingRequest | TermsOfRiggingResponse | Условия расчета такелажных работ |
+| TermsOfRatesForRiggingRequest | TermsOfRatesForRiggingResponse | Условия расчета такелажных работ |
 
 Некоторые классы запросов принимают параметры для конфигарции запроса.
 Для передачи значений параметров необходимо вызывать соответствующие методы

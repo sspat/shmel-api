@@ -3,7 +3,7 @@ namespace sspat\ShmelAPI\Responses;
 
 use sspat\ShmelAPI\Contracts\Response;
 
-final class TermsOfRiggingResponse implements Response
+final class TermsOfRatesForRiggingResponse implements Response
 {
     /** @var array */
     private $response;
@@ -32,7 +32,7 @@ final class TermsOfRiggingResponse implements Response
             function ($rate) {
                 return $rate;
             },
-            $response->return->GroupTermsOfRigging
+            $response->return->GroupTableRatesForRigging
         );
     }
 }
