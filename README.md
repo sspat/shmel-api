@@ -84,28 +84,126 @@ $api = new APIClient(
 
 | Класс запроса | Класс ответа | Описание |
 | --- | --- | --- |
+| CarsCategoriesRequest | CarsCategoriesResponse | Категории автомобилей |
 | ListAndCostOfGoodsRequest | ListAndCostOfGoodsResponse | Перечень и стоимость товаров |
 | ListAndCostOfServicesRequest | ListAndCostOfServicesResponse | Перечень и стоимость услуг |
 | ListAndTermsOfKitsRequest | ListAndTermsOfKitsResponse | Перечень и условия пакетов на переезд |
 | TermsOfRatesForCarsRequest | TermsOfRatesForCarsResponse | Условия тарифа на транспортные средства |
 | TermsOfRatesForLoadersRequest | TermsOfRatesForLoadersResponse | Условия тарифа на грузчиков |
 | TermsOfRatesForRiggingRequest | TermsOfRatesForRiggingResponse | Условия расчета такелажных работ |
+| CreateOrderForRelocationRequest | CreateOrderForRelocationResponse | Создать заявку на переезд |
 
 Некоторые классы запросов принимают параметры для конфигарции запроса.
 Для передачи значений параметров необходимо вызывать соответствующие методы
 обьекта запроса:
-
-| Класс запроса | Метод(тип аргумента) |
-| --- | --- |
-| TermsOfRatesForCarsRequest | setID(string), setRate(string) |
-| TermsOfRatesForLoadersRequest | setID(string), setRate(string) |
-
-Пример:
 ```php
 $request = new TermsOfRatesForCarsRequest();
 $request
     ->setID('000000026')
     ->setRate('Физическое лицо Без НДС');
+    
+$response = $api->sendRequest($request);
+```
+
+Пример формирования запроса для создания заявки на переезд:
+```php
+$request = (
+        new CreateOrderForRelocationRequest(
+            (new IncomingStructOrderForRelocation())
+                ->setTypeOfRelocation(IncomingStructOrderForRelocation::RELOCATION_TYPE_APARTMENT)
+                ->setTypeOfPerson(IncomingStructOrderForRelocation::PERSON_TYPE_PRIVATE)
+                ->setCustomer('Тестовый Пользователь')
+                ->setPhoneNumber('+74992565085')
+                ->setPromoPhoneNumber('+74992565085')
+                ->setEmail('test@example.com')
+                ->setDate(new DateTimeImmutable())
+                ->setPaymentType(IncomingStructOrderForRelocation::PAYMENT_TYPE_CASH)
+                ->setKit('000000004')
+        )
+    )
+    ->addIncomingStructAddress(
+        (new IncomingStructAddress())
+            ->setTypeOfAddress(IncomingStructAddress::ADDRESS_TYPE_LOAD)
+            ->setAddressFieldCity('Москва')
+            ->setAddressFieldStreet('ул. Подвойского')
+            ->setAddressFieldHome('8')
+            ->setAddressFieldApartment('47')
+            ->setFilling(IncomingStructAddress::FILLING_MEDIUM)
+            ->setNumberOfRooms(2)
+            ->setClassOfRoom(IncomingStructAddress::ROOM_CLASS_VIP)
+            ->setContactPerson('Тестовый Пользователь')
+            ->setPhoneNumber('+74992565085')
+            ->setFloor(2)
+            ->setFreightLift(true)
+            ->setPassengerLift(true)
+            ->setAssemblyDisassemblyOfFurniture(false)
+            ->setGarbageRemoval(true)
+            ->setCleaning(true)
+    )
+    ->addIncomingStructAddress(
+        (new IncomingStructAddress())
+            ->setTypeOfAddress(IncomingStructAddress::ADDRESS_TYPE_UNLOAD)
+            ->setAddressFieldCity('Москва')
+            ->setAddressFieldStreet('ул. Перерва')
+            ->setAddressFieldHome('2')
+            ->setAddressFieldBlock('1')
+            ->setAddressFieldApartment('44')
+            ->setContactPerson('Тестовый Пользователь')
+            ->setPhoneNumber('+74992565085')
+            ->setFloor(2)
+            ->setFreightLift(false)
+            ->setPassengerLift(true)
+            ->setAssemblyDisassemblyOfFurniture(true)
+            ->setGarbageRemoval(false)
+            ->setCleaning(false)
+    )
+    ->addIncomingStructTransport(
+        (new IncomingStructTransport())
+            ->setDateTime(new DateTimeImmutable())
+            ->setIdCategory('000000026')
+            ->setAdditionalWorkTime(4)
+            ->setCarMileageBeyondTheMkad(40)
+    )
+    ->addStructLoader(
+        (new StructLoader())
+            ->setDateTime(new DateTimeImmutable())
+            ->setIdCategory(StructLoader::LOADER_TYPE_ASSEMBLER)
+            ->setKmBeyondTheMkad(StructLoader::MKAD_INSIDE)
+            ->setHours(4)
+    )
+    ->addStructLoader(
+        (new StructLoader())
+            ->setDateTime(new DateTimeImmutable())
+            ->setIdCategory(StructLoader::LOADER_TYPE_ASSEMBLER)
+            ->setKmBeyondTheMkad(StructLoader::MKAD_INSIDE)
+            ->setHours(4)
+    )
+    ->addStructLoader(
+        (new StructLoader())
+            ->setDateTime(new DateTimeImmutable())
+            ->setIdCategory(StructLoader::LOADER_TYPE_LIFTER)
+            ->setKmBeyondTheMkad(StructLoader::MKAD_INSIDE)
+            ->setHours(4)
+    )
+    ->addIncomingStructRigging(
+        (new IncomingStructRigging())
+            ->setDate(new DateTimeImmutable())
+            ->setDescription('Перенести сейф')
+            ->setIdRateConditionWeight('000000005')
+            ->setIdRateConditionDistance('000000006')
+    )
+    ->addStructGoods(
+        (new StructGoods())
+            ->setDate(new DateTimeImmutable())
+            ->setId('00000042129')
+            ->setNumber(3)
+    )
+    ->addStructService(
+        (new StructService())
+            ->setDate(new DateTimeImmutable())
+            ->setId('00000137384')
+            ->setNumber(1)
+    );
     
 $response = $api->sendRequest($request);
 ```

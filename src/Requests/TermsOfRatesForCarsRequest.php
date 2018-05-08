@@ -1,6 +1,7 @@
 <?php
 namespace sspat\ShmelAPI\Requests;
 
+use sspat\ShmelAPI\Assert;
 use sspat\ShmelAPI\Exceptions\ShmelAPIConfigException;
 
 final class TermsOfRatesForCarsRequest extends AbstractCacheableRequest
@@ -11,27 +12,45 @@ final class TermsOfRatesForCarsRequest extends AbstractCacheableRequest
     /** @var string|null */
     private $rate;
 
+    /** @var bool */
+    private $relocation;
+
     /**
+     * Идентификатор (код) тарифного плана
+     *
      * @param $id
      * @return self
-     * @throws ShmelAPIConfigException
      */
     public function setID($id)
     {
-        $this->ensureIsStringOrNull('ID', $id);
+        Assert::nullOrString($id);
         $this->id = $id;
         return $this;
     }
 
     /**
+     * Наименование тарифного плана
+     *
      * @param $rate
      * @return self
-     * @throws ShmelAPIConfigException
      */
     public function setRate($rate)
     {
-        $this->ensureIsStringOrNull('Rate', $rate);
+        Assert::nullOrString($rate);
         $this->rate = $rate;
+        return $this;
+    }
+
+    /**
+     * Выгружать только тарифы по переезду
+     *
+     * @param $relocation
+     * @return self
+     */
+    public function setRelocation($relocation)
+    {
+        Assert::boolean($relocation);
+        $this->relocation = $relocation;
         return $this;
     }
 
@@ -48,7 +67,8 @@ final class TermsOfRatesForCarsRequest extends AbstractCacheableRequest
             [
                 'StructRate' => [
                     'ID' => $this->id,
-                    'Rate' => $this->rate
+                    'Rate' => $this->rate,
+                    'Relocation' => $this->relocation
                 ]
             ]
         ];

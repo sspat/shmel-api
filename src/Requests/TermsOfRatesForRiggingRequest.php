@@ -1,6 +1,8 @@
 <?php
 namespace sspat\ShmelAPI\Requests;
 
+use sspat\ShmelAPI\Assert;
+
 final class TermsOfRatesForRiggingRequest extends AbstractCacheableRequest
 {
     /** @var string|null */
@@ -10,25 +12,27 @@ final class TermsOfRatesForRiggingRequest extends AbstractCacheableRequest
     private $rate;
 
     /**
+     * Идентификатор (код) тарифного плана
+     *
      * @param $id
      * @return self
-     * @throws ShmelAPIConfigException
      */
     public function setID($id)
     {
-        $this->ensureIsStringOrNull('ID', $id);
+        Assert::nullOrString($id);
         $this->id = $id;
         return $this;
     }
 
     /**
+     * Наименование тарифного плана
+     *
      * @param $rate
      * @return self
-     * @throws ShmelAPIConfigException
      */
     public function setRate($rate)
     {
-        $this->ensureIsStringOrNull('Rate', $rate);
+        Assert::nullOrString($rate);
         $this->rate = $rate;
         return $this;
     }
