@@ -28,11 +28,6 @@ final class CreateOrderForRelocationResponse implements Response
      */
     private function setResponse($response)
     {
-        $this->response = array_map(
-            function ($rate) {
-                return $rate;
-            },
-            $response->return->StructDescriptionBugs
-        );
+        $this->response = $response->return;
     }
 }
